@@ -33,7 +33,6 @@ class RemoveGenero(Mutation):
 
     deleted = Boolean()
 
-    # @permission_required('auth.delete_bancos')
     def mutate(self, info, id):
         try:
             obj = Generos.objects.get(pk=id)
