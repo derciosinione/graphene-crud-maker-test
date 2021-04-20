@@ -1,18 +1,17 @@
 import os
 from django.apps import apps
 
-App = 'Api'
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-APP_DIR = os.path.join(BASE_DIR,App)
-
-# Get All Django Models
-all_models = [x.__name__ for x in apps.get_app_config(App).get_models()]
-exclude_fields = ['id', 'datacriacao','dataatualizacao', 'data_criacao', 'data_atualizacao', 'date_joined'
-                #   'refresh_tokens', 'user_permis', 'logentry', 'ruas', 'provincias', 'cidades', 'municipios',
-                  ]
-
 
 class CrudMaker():
+    App = 'Api'
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    APP_DIR = os.path.join(BASE_DIR,App)
+
+    # Get All Django Models
+    all_models = [x.__name__ for x in apps.get_app_config(App).get_models()]
+    exclude_fields = ['id', 'datacriacao','dataatualizacao', 'data_criacao', 'data_atualizacao', 'date_joined'
+                    #   'refresh_tokens', 'user_permis', 'logentry', 'ruas', 'provincias', 'cidades', 'municipios',
+                    ]
     graphql_path = os.path.join(APP_DIR,'graphql')
     query_path = os.path.join(graphql_path,'query')
     mutation_path = os.path.join(graphql_path,'mutation')
@@ -119,18 +118,33 @@ class CrudMaker():
         list_class.clear()
         list_import.clear()
 
+
 class CrudMaker1(object):
     def __init__(self, app_name):
         super(CrudMaker1, self).__init__()
         self.app_name = app_name
-        self.create_queries()
-        self.create_mutations()
+        self.__create_queries()
+        self.__create_mutations()
+        # App = 'Api'
+        self.BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        self.APP_DIR = os.path.join(self.BASE_DIR, app_name)
+
+        # Get All Django Models
+        self.__all_models = [x.__name__ for x in apps.get_app_config(app_name).get_models()]
+        self.__exclude_fields = ['id', 'datacriacao','dataatualizacao', 'data_criacao', 'data_atualizacao', 'date_joined']
+        
+        self.__graphql_path = os.path.join(app_name,'graphql')
+        self.__query_path = os.path.join(self.__graphql_path,'query')
+        self.__mutation_path = os.path.join(self.__graphql_path,'mutation')
+        self.__base_path = os.path.join(self.BASE_DIR, 'Base')
+
     
-    def create_queries(self):
+    def __create_queries(self):
         print(f'You called Create queries in {self.app_name} application')
+        print()
         
         
-    def create_mutations(self):
+    def __create_mutations(self):
         print('You called Create mutations')
     
     
