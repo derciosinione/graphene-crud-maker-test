@@ -22,7 +22,7 @@ class CrudMaker():
         os.makedirs(os.path.join('graphql','query'))
         os.makedirs(os.path.join('graphql','mutation'))
                     
-        with open(os.path.join(graphql_path, f'__init__.txt'), 'w') as fw: pass
+        # with open(os.path.join(graphql_path, f'__init__.txt'), 'w') as fw: pass
         
         with open(os.path.join(base_path, f'BaseSchema.txt'), 'r') as fr:
             ### WRITING NEW QUERY FILE
@@ -30,17 +30,15 @@ class CrudMaker():
                 for line in fr.readlines():
                     fw.write(line)
 
-    ## QUERY    
-    with open(os.path.join(query_path, f'__init__.txt'), 'w') as fw: 
-        fw.write('from graphene import ObjectType \n')
-        fw.write('from Core.utils import CustomNode \n')
-        fw.write('from graphene_django.filter import DjangoFilterConnectionField \n')
-
+    ## ============================== QUERY ==============================    
     list_import = []
     list_class = ['class Query(ObjectType):\n',]
     # from .generos import GenerosType
     for model in all_models:
-        list_import.append(f'from .{model} import {model}Type \n')
+        list_import.append(f'from .{model} import {model}Type \n')        
+        list_class.append(f'{model.lower()} = CustomNode.Field({model}Type)')
+        list_class.append(f'all_{model.lower()} = DjangoFilterConnectionField({model}Type)')
+        
         ### READING THE QUERY TXT
         with open(os.path.join(base_path, f'BaseQuery.txt'), 'r') as fr:
             ### WRITING NEW QUERY FILE
@@ -50,7 +48,22 @@ class CrudMaker():
                         line = line.replace('Base_', model)
                     fw.write(line)
     
-    # MUTATIONS    
+    # Writing __init__.py for queries
+    with open(os.path.join(query_path, f'__init__.txt'), 'w') as fw: 
+        fw.write('from graphene import ObjectType \n')
+        fw.write('from Core.utils import CustomNode \n')
+        fw.write('from graphene_django.filter import DjangoFilterConnectionField \n')
+        fw.write('\n')
+        
+        for line in list_import:
+            fw.write(line)
+        
+        fw.write('\n \n')
+        
+        for line in list_class:
+            fw.write(line)
+        
+    # ============================== MUTATIONS  ==============================
     with open(os.path.join(mutation_path, f'__init__.txt'), 'w') as fw:
         fw.write('from graphene import ObjectType')
 
@@ -73,3 +86,4 @@ class CrudMaker():
 
                         line = line.replace('pass_fields_', f'fields = {field}')
                     fw.write(line)
+    
