@@ -36,8 +36,9 @@ class CrudMaker():
     # from .generos import GenerosType
     for model in all_models:
         list_import.append(f'from .{model} import {model}Type \n')        
-        list_class.append(f'{model.lower()} = CustomNode.Field({model}Type)')
-        list_class.append(f'all_{model.lower()} = DjangoFilterConnectionField({model}Type)')
+
+        list_class.append(f'\t{model.lower()} = CustomNode.Field({model}Type) \n')
+        list_class.append(f'\tall_{model.lower()} = DjangoFilterConnectionField({model}Type) \n\n')
         
         ### READING THE QUERY TXT
         with open(os.path.join(base_path, f'BaseQuery.txt'), 'r') as fr:
@@ -58,15 +59,15 @@ class CrudMaker():
         for line in list_import:
             fw.write(line)
         
-        fw.write('\n \n')
+        fw.write('\n\n')
         
         for line in list_class:
             fw.write(line)
+
+        fw.write('\n')
+        list_class.clear()
         
     # ============================== MUTATIONS  ==============================
-    with open(os.path.join(mutation_path, f'__init__.txt'), 'w') as fw:
-        fw.write('from graphene import ObjectType')
-
     for model in all_models:
         ### READING THE MUTATION TXT
         with open(os.path.join(base_path, f'BaseMutation.txt'), 'r') as fr:
@@ -87,3 +88,10 @@ class CrudMaker():
                         line = line.replace('pass_fields_', f'fields = {field}')
                     fw.write(line)
     
+    list_class = ['class Mutation(ObjectType):\n',]
+    
+    with open(os.path.join(mutation_path, f'__init__.txt'), 'w') as fw:
+        fw.write('from graphene import ObjectType')
+        fw.write('\n')
+        
+        # from .generos import GenerosMutation, RemoveGenero
