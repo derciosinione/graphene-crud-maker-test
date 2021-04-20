@@ -110,4 +110,3 @@ class CrudMaker():
             fw.write(line)
 
         list_class.clear()
-        # from .generos import GenerosMutation, RemoveGenero
