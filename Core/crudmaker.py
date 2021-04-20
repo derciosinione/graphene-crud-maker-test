@@ -73,9 +73,10 @@ class CrudMaker():
     for model in all_models:
         # from .generos import GenerosMutation, RemoveGenero
         list_import.append(f'from .{model} import {model}Mutation, Remove{model} \n')  
-        
-        # genero = GenerosMutation.Field()
+
         list_class.append(f'\t{model.lower()} = {model}Mutation.Field() \n')
+        list_class.append(f'\tremove_{model.lower()} = Remove{model}.Field() \n\n')
+        
         ### READING THE MUTATION TXT
         with open(os.path.join(base_path, f'BaseMutation.txt'), 'r') as fr:
             ### WRITING NEW MUTATION FILE
@@ -97,12 +98,16 @@ class CrudMaker():
     
 
     with open(os.path.join(mutation_path, f'__init__.txt'), 'w') as fw:
-        fw.write('from graphene import ObjectType')
+        fw.write('from graphene import ObjectType\n')
         fw.write('\n')
+        
+        for line in list_import:
+            fw.write(line)
+        
+        fw.write('\n\n')
         
         for line in list_class:
             fw.write(line)
 
-        fw.write('\n')
         list_class.clear()
         # from .generos import GenerosMutation, RemoveGenero
