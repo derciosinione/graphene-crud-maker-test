@@ -10,7 +10,7 @@ from Api.graphql.query import UserType
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['date_joined', 'email', 'first_name', 'is_active', 'is_staff', 'is_superuser', 'last_login', 'last_name', 'password', 'username']
+        fields = ['email', 'first_name', 'is_active', 'is_staff', 'is_superuser', 'last_login', 'last_name', 'password', 'username']
 
 
 class UserMutation(DjangoModelFormMutation):

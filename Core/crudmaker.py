@@ -7,7 +7,7 @@ APP_DIR = os.path.join(BASE_DIR,App)
 
 # Get All Django Models
 all_models = [x.__name__ for x in apps.get_app_config(App).get_models()]
-exclude_fields = ['id', 'datacriacao','dataatualizacao', 'data_criacao', 'data_atualizacao',
+exclude_fields = ['id', 'datacriacao','dataatualizacao', 'data_criacao', 'data_atualizacao', 'date_joined'
                 #   'refresh_tokens', 'user_permis', 'logentry', 'ruas', 'provincias', 'cidades', 'municipios',
                   ]
 
@@ -41,15 +41,17 @@ class CrudMaker():
         list_class.append(f'\t{model.lower()} = CustomNode.Field({model}Type) \n')
         list_class.append(f'\tall_{model.lower()} = DjangoFilterConnectionField({model}Type) \n\n')
         
-        ### READING THE QUERY TXT
-        with open(os.path.join(base_path, f'BaseQuery.txt'), 'r') as fr:
-            ### WRITING NEW QUERY FILE
-            with open(os.path.join(query_path, f'{model}.py'), 'w') as fw: 
-                for line in fr.readlines():
-                    if line.__contains__('Base_'):
-                        line = line.replace('Base_', model)
-                    fw.write(line)
-    
+        # Verify if the current file already exist
+        if not os.path.exists(os.path.join(query_path, f'{model}.py')):
+            ### READING THE QUERY TXT
+            with open(os.path.join(base_path, f'BaseQuery.txt'), 'r') as fr:
+                ### WRITING NEW QUERY FILE
+                with open(os.path.join(query_path, f'{model}.py'), 'w') as fw: 
+                    for line in fr.readlines():
+                        if line.__contains__('Base_'):
+                            line = line.replace('Base_', model)
+                        fw.write(line)
+        
     # Writing __init__.py for queries
     with open(os.path.join(query_path, f'__init__.py'), 'w') as fw: 
         fw.write('from graphene import ObjectType \n')
@@ -79,25 +81,27 @@ class CrudMaker():
         list_class.append(f'\t{model.lower()} = {model}Mutation.Field() \n')
         list_class.append(f'\tremove_{model.lower()} = Remove{model}.Field() \n\n')
         
-        ### READING THE MUTATION TXT
-        with open(os.path.join(base_path, f'BaseMutation.txt'), 'r') as fr:
-            ### WRITING NEW MUTATION FILE
-            with open(os.path.join(mutation_path, f'{model}.py'), 'w') as fw: 
-                for line in fr.readlines():
-                    if line.__contains__('Base_'):
-                        line = line.replace('Base_', model)
-                    elif line.__contains__('pass_fields_'):
-                        takedModel = apps.get_model(App, model)
-                        # field = [field.name for field in takedModel._meta.get_fields()]
-                        field = sorted([field.name for field in takedModel._meta.concrete_fields])
-                        
-                        # Removing exclude_fields
-                        for item in exclude_fields:
-                            if field.__contains__(item):
-                                field.remove(item)
+         # Verify if the current file already exist
+        if not os.path.exists(os.path.join(mutation_path, f'{model}.py')):
+            ### READING THE MUTATION TXT
+            with open(os.path.join(base_path, f'BaseMutation.txt'), 'r') as fr:
+                ### WRITING NEW MUTATION FILE
+                with open(os.path.join(mutation_path, f'{model}.py'), 'w') as fw: 
+                    for line in fr.readlines():
+                        if line.__contains__('Base_'):
+                            line = line.replace('Base_', model)
+                        elif line.__contains__('pass_fields_'):
+                            takedModel = apps.get_model(App, model)
+                            # field = [field.name for field in takedModel._meta.get_fields()]
+                            field = sorted([field.name for field in takedModel._meta.concrete_fields])
+                            
+                            # Removing exclude_fields
+                            for item in exclude_fields:
+                                if field.__contains__(item):
+                                    field.remove(item)
 
-                        line = line.replace('pass_fields_', f'fields = {field}')
-                    fw.write(line)
+                            line = line.replace('pass_fields_', f'fields = {field}')
+                        fw.write(line)
 
     # Writing __init__.py for mutations
     with open(os.path.join(mutation_path, f'__init__.py'), 'w') as fw:
