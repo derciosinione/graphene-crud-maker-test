@@ -3,11 +3,14 @@ from graphene import Schema, Field
 from django.dispatch import receiver
 from graphql_jwt.refresh_token.signals import refresh_token_rotated
 from graphql_jwt.relay import JSONWebTokenMutation
-from .crudmaker import CrudMaker
+from .crudmaker import CrudMaker, CrudMaker1
 
 # Here is where you will put your schema from app you have created
 from Api.graphql.query import UserType
 from Api.graphql.schema import Query as ApiQuery, Mutation as ApiMutation
+
+
+creat = CrudMaker1(app_name='Api')
 
 
 class ObtainJSONWebToken(JSONWebTokenMutation):

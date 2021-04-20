@@ -21,6 +21,8 @@ class UserMutation(DjangoModelFormMutation):
 
     def perform_mutate(form, info):
         try:
+            form.instance.set_password(form.instance.password)
+            print(form.instance.password)
             data = form.save()
             return UserMutation(data=data)
         except form.DoesNotExis:

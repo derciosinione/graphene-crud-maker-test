@@ -119,3 +119,18 @@ class CrudMaker():
         list_class.clear()
         list_import.clear()
 
+class CrudMaker1(object):
+    def __init__(self, app_name):
+        super(CrudMaker1, self).__init__()
+        self.app_name = app_name
+        self.create_queries()
+        self.create_mutations()
+    
+    def create_queries(self):
+        print(f'You called Create queries in {self.app_name} application')
+        
+        
+    def create_mutations(self):
+        print('You called Create mutations')
+    
+    
