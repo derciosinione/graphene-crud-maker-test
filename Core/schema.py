@@ -7,7 +7,7 @@ from graphql_jwt.relay import JSONWebTokenMutation
 # Here is where you will put your schema from app you have created
 from Api.graphql.query import UserType
 from Api.graphql.schema import Query as ApiQuery, Mutation as ApiMutation
-from .crudmaker import CrudMaker
+# from .crudmaker import CrudMaker
 
 
 class ObtainJSONWebToken(JSONWebTokenMutation):

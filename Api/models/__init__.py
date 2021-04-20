@@ -3,6 +3,7 @@ from .Bairros import Bairros
 from .Cidades import Cidades
 from .Generos import Generos
 from .Municipios import Municipios
+from .Provincias import Provincias
 from .Paises import Paises
 from .Ruas import Ruas
 from .User import User

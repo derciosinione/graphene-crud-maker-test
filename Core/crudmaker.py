@@ -21,7 +21,9 @@ class CrudMaker():
     if not os.path.exists(graphql_path):
         os.makedirs(os.path.join('graphql','query'))
         os.makedirs(os.path.join('graphql','mutation'))
-                        
+        
+        with open(os.path.join(graphql_path, f'__init__.py'), 'w') as fw: pass
+        
         with open(os.path.join(base_path, f'BaseSchema.txt'), 'r') as fr:
             ### WRITING NEW QUERY FILE
             with open(os.path.join(graphql_path, 'schema.py'), 'w') as fw:
