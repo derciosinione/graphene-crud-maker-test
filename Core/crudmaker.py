@@ -139,7 +139,7 @@ class CrudMaker1(object):
         self.list_class = list()
         
         self.__create_queries(self.__base_path)
-        self.__create_mutations()
+        self.__create_mutations(self.__base_path)
         self.__create_Api_folder(self.__graphql_path, self.__base_path)
 
     
@@ -206,14 +206,14 @@ class CrudMaker1(object):
     def __create_mutations(self, base_path):
         print('You called Create mutations')
         mutation_path = os.path.join(self.__graphql_path, 'mutation')
-        list_import = []
-        list_class = ['class Mutation(ObjectType):\n',]
+        self.list_import.clear()
+        self.list_class = ['class Mutation(ObjectType):\n',]
 
         for model in self.__all_models:
-            list_import.append(f'from .{model} import {model}Mutation, Remove{model} \n')  
+            self.list_import.append(f'from .{model} import {model}Mutation, Remove{model} \n')  
 
-            list_class.append(f'\t{model.lower()} = {model}Mutation.Field() \n')
-            list_class.append(f'\tremove_{model.lower()} = Remove{model}.Field() \n\n')
+            self.list_class.append(f'\t{model.lower()} = {model}Mutation.Field() \n')
+            self.list_class.append(f'\tremove_{model.lower()} = Remove{model}.Field() \n\n')
             
             # Verify if the current file already exist
             if not os.path.exists(os.path.join(mutation_path, f'{model}.py')):
@@ -225,12 +225,12 @@ class CrudMaker1(object):
                             if line.__contains__('Base_'):
                                 line = line.replace('Base_', model)
                             elif line.__contains__('pass_fields_'):
-                                takedModel = apps.get_model(App, model)
+                                takedModel = apps.get_model(self.app_name, model)
                                 # field = [field.name for field in takedModel._meta.get_fields()]
                                 field = sorted([field.name for field in takedModel._meta.concrete_fields])
                                 
                                 # Removing exclude_fields
-                                for item in exclude_fields:
+                                for item in self.__exclude_fields:
                                     if field.__contains__(item):
                                         field.remove(item)
 
@@ -242,14 +242,14 @@ class CrudMaker1(object):
             fw.write('from graphene import ObjectType\n')
             fw.write('\n')
             
-            for line in list_import:
+            for line in self.list_import:
                 fw.write(line)
             
             fw.write('\n\n')
             
-            for line in list_class:
+            for line in self.list_class:
                 fw.write(line)
 
-            list_class.clear()
-            list_import.clear()
+            self.list_class.clear()
+            self.list_import.clear()
 
