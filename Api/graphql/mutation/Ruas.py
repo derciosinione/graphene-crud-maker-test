@@ -10,7 +10,7 @@ from Api.graphql.query import RuasType
 class RuasForm(forms.ModelForm):
     class Meta:
         model = Ruas
-        fields = ['nome', 'bairroid', 'codrua']
+        fields = ['bairroid', 'codrua', 'nome']
 
 
 class RuasMutation(DjangoModelFormMutation):

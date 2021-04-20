@@ -10,7 +10,7 @@ from Api.graphql.query import ProvinciasType
 class ProvinciasForm(forms.ModelForm):
     class Meta:
         model = Provincias
-        fields = ['nome', 'paisid', 'codprovincia']
+        fields = ['codprovincia', 'nome', 'paisid']
 
 
 class ProvinciasMutation(DjangoModelFormMutation):

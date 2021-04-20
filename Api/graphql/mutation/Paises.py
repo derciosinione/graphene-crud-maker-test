@@ -10,7 +10,7 @@ from Api.graphql.query import PaisesType
 class PaisesForm(forms.ModelForm):
     class Meta:
         model = Paises
-        fields = ['nome', 'codigopais', 'ddd', 'codpais']
+        fields = ['codigopais', 'codpais', 'ddd', 'nome']
 
 
 class PaisesMutation(DjangoModelFormMutation):

@@ -10,7 +10,7 @@ from Api.graphql.query import BairrosType
 class BairrosForm(forms.ModelForm):
     class Meta:
         model = Bairros
-        fields = ['nome', 'cod_bairro']
+        fields = ['cod_bairro', 'nome']
 
 
 class BairrosMutation(DjangoModelFormMutation):

@@ -1,14 +1,15 @@
 import os
 from django.apps import apps
 
-
 App = 'Api'
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 APP_DIR = os.path.join(BASE_DIR,App)
 
 # Get All Django Models
 all_models = [x.__name__ for x in apps.get_app_config(App).get_models()]
-exclude_fields = ['id', 'datacriacao','dataatualizacao', 'data_criacao', 'data_atualizacao', 'refresh_tokens', 'user_permis', 'logentry', 'ruas', 'provincias', 'cidades', 'municipios',]
+exclude_fields = ['id', 'datacriacao','dataatualizacao', 'data_criacao', 'data_atualizacao',
+                #   'refresh_tokens', 'user_permis', 'logentry', 'ruas', 'provincias', 'cidades', 'municipios',
+                  ]
 
 
 class CrudMaker():
@@ -87,7 +88,8 @@ class CrudMaker():
                         line = line.replace('Base_', model)
                     elif line.__contains__('pass_fields_'):
                         takedModel = apps.get_model(App, model)
-                        field = [field.name for field in takedModel._meta.get_fields()]
+                        # field = [field.name for field in takedModel._meta.get_fields()]
+                        field = sorted([field.name for field in takedModel._meta.concrete_fields])
                         
                         # Removing exclude_fields
                         for item in exclude_fields:

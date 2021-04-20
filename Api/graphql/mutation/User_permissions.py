@@ -10,7 +10,7 @@ from Api.graphql.query import User_permissionsType
 class User_permissionsForm(forms.ModelForm):
     class Meta:
         model = User_permissions
-        fields = ['user', 'permission']
+        fields = ['permission', 'user']
 
 
 class User_permissionsMutation(DjangoModelFormMutation):
