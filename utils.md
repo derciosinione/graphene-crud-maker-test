@@ -14,3 +14,19 @@ class GenerosType(DjangoObjectType):
             'id': ['exact',],
         }   
         interfaces = (CustomNode,)
+
+
+class UserSignUpForm(UserCreationForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        field = [field.name for field in User._meta.get_fields()]
+        exclude_fields = ['id', 'data_atualizacao', 'user_permis', 'refresh_tokens', 'logentry']
+        
+        # Removing exclude_fields
+        for item in exclude_fields:
+            if field.__contains__(item):
+                field.remove(item)        
+        
+        fields = field

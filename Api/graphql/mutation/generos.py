@@ -5,12 +5,21 @@ from graphene_django.forms.mutation import DjangoModelFormMutation
 
 from Api.models import Generos
 from Api.graphql.query import GenerosType
+from django.apps import apps
 
 
 class GenerosForm(forms.ModelForm):
     class Meta:
         model = Generos
-        fields = ('designacao',)
+        field = [field.name for field in Generos._meta.get_fields()]
+        exclude_fields = ['id', 'datacriacao','dataatualizacao', 'data_criacao', 'data_atualizacao']
+
+        # Removing exclude_fields
+        for item in exclude_fields:
+            if field.__contains__(item):
+                field.remove(item)
+                
+        fields = field
 
 
 class GenerosMutation(DjangoModelFormMutation):

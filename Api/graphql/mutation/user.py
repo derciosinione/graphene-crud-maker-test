@@ -16,7 +16,15 @@ class UserSignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2', ]
+        field = [field.name for field in User._meta.get_fields()]
+        exclude_fields = ['id', 'data_atualizacao', 'user_permis', 'refresh_tokens', 'logentry']
+        
+        # Removing exclude_fields
+        for item in exclude_fields:
+            if field.__contains__(item):
+                field.remove(item)        
+        
+        fields = field
 
 
 class UserSignUpMutation(DjangoModelFormMutation):

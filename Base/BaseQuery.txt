@@ -1,11 +1,11 @@
 from graphene_django import DjangoObjectType
 from Core.utils import CustomNode
-from Api.models import Generos
-    
+from Api.models import Base_
 
-class GenerosType(DjangoObjectType):
+
+class Base_Type(DjangoObjectType):
     class Meta:
-        model = Generos
+        model = Base_
         filter_fields = {
             'id': ['exact',],
         }   

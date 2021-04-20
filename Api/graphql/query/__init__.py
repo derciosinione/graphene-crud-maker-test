@@ -1,5 +1,5 @@
-from graphene_django.filter import DjangoFilterConnectionField
 from graphene import ObjectType
+from graphene_django.filter import DjangoFilterConnectionField
 
 from Core.utils import CustomNode
 
