@@ -6,9 +6,6 @@ App = 'Api'
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 APP_DIR = os.path.join(BASE_DIR,App)
 
-print(APP_DIR)
-print(BASE_DIR)
-
 # Get All Django Models
 all_models = [x.__name__ for x in apps.get_app_config(App).get_models()]
 exclude_fields = ['id', 'datacriacao','dataatualizacao', 'data_criacao', 'data_atualizacao', 'refresh_tokens', 'user_permis', 'logentry', 'ruas', 'provincias', 'cidades', 'municipios',]
@@ -115,3 +112,4 @@ class CrudMaker():
 
         list_class.clear()
         list_import.clear()
+
