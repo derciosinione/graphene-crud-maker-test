@@ -1,26 +1,29 @@
 import os
 from django.apps import apps
-import shutil
 
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 App = 'Api'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+APP_DIR = os.path.join(BASE_DIR,App)
+
+print(APP_DIR)
+print(BASE_DIR)
 
 # Get All Django Models
 all_models = [x.__name__ for x in apps.get_app_config(App).get_models()]
-exclude_fields = ['id', 'datacriacao','dataatualizacao', 'data_criacao', 'data_atualizacao']
+exclude_fields = ['id', 'datacriacao','dataatualizacao', 'data_criacao', 'data_atualizacao', 'refresh_tokens', 'user_permis', 'logentry', 'ruas', 'provincias', 'cidades', 'municipios',]
 
 
 class CrudMaker():
-    graphql_path = os.path.join(BASE_DIR,'graphql')
+    graphql_path = os.path.join(APP_DIR,'graphql')
     query_path = os.path.join(graphql_path,'query')
     mutation_path = os.path.join(graphql_path,'mutation')
     base_path = os.path.join(BASE_DIR,'Base')
     
     # Creating Directories : graphql, query, mutation
     if not os.path.exists(graphql_path):
-        os.makedirs(os.path.join('graphql','query'))
-        os.makedirs(os.path.join('graphql','mutation'))
+        os.makedirs(os.path.join(graphql_path, 'query'))
+        os.makedirs(os.path.join(graphql_path, 'mutation'))
         
         with open(os.path.join(graphql_path, f'__init__.py'), 'w') as fw: pass
         
