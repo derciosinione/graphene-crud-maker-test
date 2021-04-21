@@ -56,18 +56,20 @@ class CrudMaker(object):
             self.list_class.append(f'\tall_{model.lower()} = DjangoFilterConnectionField({model}Type) \n\n')
             
             # Verify if the current file already exist
-            if not os.path.exists(os.path.join(query_path, f'{model}.py')):
+            # if not os.path.exists(os.path.join(query_path, f'{model}.py')):
                 ### READING THE QUERY TXT
-                with open(os.path.join(base_path, f'BaseQuery.txt'), 'r') as fr:
-                    ### WRITING NEW QUERY FILE
-                    with open(os.path.join(query_path, f'{model}.py'), 'w') as fw: 
-                        for line in fr.readlines():
-                            if line.__contains__('Base_'):
-                                line = line.replace('Base_', model)
-                                print('********__create_queries******Base_**')
-                                print(line)
-                                print('****************')
-                            fw.write(line)
+            with open(os.path.join(base_path, f'BaseQuery.txt'), 'r') as fr:
+                ### WRITING NEW QUERY FILE
+                with open(os.path.join(query_path, f'{model}.py'), 'w') as fw: 
+                    for line in fr.readlines():
+                        if line.__contains__('Base_'):
+                            line = line.replace('Base_', model)
+                        if line.__contains__('App_'):
+                            print('*****Contem******')    
+                            line = line.replace('App_', self.app_name)
+                            # print(line)
+                            # print('***********')    
+                        fw.write(line)
             
         # Writing __init__.py for queries
         with open(os.path.join(query_path, f'__init__.py'), 'w') as fw: 
