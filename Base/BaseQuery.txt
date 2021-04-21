@@ -1,7 +1,7 @@
 from graphene_django import DjangoObjectType
 from Core.utils import CustomNode
-from Api.models import Base_
-# derone App_ Base_
+from App_.models import Base_
+
 
 class Base_Type(DjangoObjectType):
     class Meta:

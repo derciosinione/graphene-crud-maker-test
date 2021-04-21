@@ -67,7 +67,7 @@ class CrudMaker(object):
                         if line.__contains__('App_'):
                             print('*****Contem******')    
                             line = line.replace('App_', self.app_name)
-                            # print(line)
+                            print(line)
                             # print('***********')    
                         fw.write(line)
             
