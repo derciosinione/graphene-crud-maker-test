@@ -3,8 +3,8 @@ from django import forms
 from graphene import ID, Mutation, Boolean
 from graphene_django.forms.mutation import DjangoModelFormMutation
 
-from Api.models import Base_
-from Api.graphql.query import Base_Type
+from App_.models import Base_
+from App_.graphql.query import Base_Type
 
 
 class Base_Form(forms.ModelForm):
