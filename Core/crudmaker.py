@@ -1,6 +1,6 @@
 import os
 from django.apps import apps
-
+from django.contrib.auth.models import User, Group
 
 # class CrudMaker():
 #     App = 'Api'
