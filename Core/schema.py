@@ -5,7 +5,7 @@ from graphql_jwt.refresh_token.signals import refresh_token_rotated
 from graphql_jwt.relay import JSONWebTokenMutation
 
 # Execute Crud Maker
-from .crudmaker import CrudMaker
+from .crud_maker.core import CrudMaker
 CrudMaker(app_name = 'Api')
 
 # Here is where you will put your schema from app you have created
