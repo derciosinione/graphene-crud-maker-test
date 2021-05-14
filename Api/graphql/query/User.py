@@ -9,4 +9,5 @@ class UserType(DjangoObjectType):
         filter_fields = {
             'id': ['exact',],
         }
+        exclude = ('password',)
         interfaces = (CustomNode,)
