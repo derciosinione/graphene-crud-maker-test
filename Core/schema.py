@@ -8,7 +8,7 @@ from graphql_jwt.relay import JSONWebTokenMutation
 # from .crud_maker.core import CrudMaker
 # CrudMaker(app_name = 'Api')
 from graphene_crud_maker.core import CrudMaker
-
+CrudMaker(app_name = 'Api')
 
 # Here is where you will put your schema from app you have created
 from Api.graphql.query import UserType

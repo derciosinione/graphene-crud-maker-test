@@ -14,7 +14,7 @@ class CrudMaker(object):
         self.__all_models = [x.__name__ for x in apps.get_app_config(app_name).get_models()]
         self.__exclude_fields = ['id', 'datacriacao','dataatualizacao', 'data_criacao', 'data_atualizacao', 'date_joined']
         self.__graphql_path = os.path.join(app_name, 'graphql')
-        self.__base_path = os.path.join(self.BASE_DIR,  'crud_maker', 'Base')
+        self.__base_path = os.path.join(self.BASE_DIR, 'base')
         self.list_import = list()
         self.list_class = list()
 
