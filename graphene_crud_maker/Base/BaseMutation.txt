@@ -1,0 +1,42 @@
+from graphene import Field
+from django import forms
+from graphene import ID, Mutation, Boolean
+from graphene_django.forms.mutation import DjangoModelFormMutation
+
+from App_.models import Base_
+from App_.graphql.query import Base_Type
+
+
+class Base_Form(forms.ModelForm):
+    class Meta:
+        model = Base_
+        pass_fields_
+
+
+class Base_Mutation(DjangoModelFormMutation):
+    class Meta:
+        form_class = Base_Form
+
+    data = Field(Base_Type)
+
+    def perform_mutate(form, info):
+        try:
+            data = form.save()
+            return Base_Mutation(data=data)
+        except form.DoesNotExis:
+            return None
+
+
+class RemoveBase_(Mutation):
+    class Arguments:
+        id = ID(required=True)
+
+    deleted = Boolean()
+
+    def mutate(self, info, id):
+        try:
+            obj = Base_.objects.get(pk=id)
+            obj.delete()
+            return RemoveBase_(deleted=True)
+        except Base_.DoesNotExist:
+            return None

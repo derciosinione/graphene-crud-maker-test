@@ -1,0 +1,10 @@
+from App_.graphql.mutation import Mutation as App_Mutation
+from App_.graphql.query import Query as App_Query
+
+
+class Query(App_Query):
+    pass
+
+
+class Mutation(App_Mutation):
+    pass
