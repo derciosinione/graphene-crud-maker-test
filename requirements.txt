@@ -1,6 +1,6 @@
-Django==2.2.4
-django-cors-headers==3.7.0
-django-filter==2.4.0
-django-graphql-jwt==0.3.1
-graphene==2.1.8
-graphene-django==2.15.0
+Django==3.2.18
+django-cors-headers==3.14.0
+django-filter==22.1
+django-graphql-jwt==0.3.4
+graphene>=3.0
+graphene-django==3.0.0
